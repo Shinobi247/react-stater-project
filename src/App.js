@@ -1,9 +1,20 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(!loaded);
+    console.log(loaded);
+  }, [count]); // useEffect runs when count changes
+
+  useEffect(() => {
+    alert("hello side effect")
+    return () => alert("good bye component") // runs when component is destroyed
+  })
   return (
     <div className="App">
       <header className="App-header">
