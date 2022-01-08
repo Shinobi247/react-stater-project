@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -11,16 +11,8 @@ function App() {
     console.log(loaded);
   }, [count]); // useEffect runs when count changes
 
-  useEffect(() => {
-    alert("hello side effect");
-    return () => alert("good bye component"); // runs when component is destroyed
-  });
-
-  let moods = {
-    happy: "happy",
-    sad: "sad"
-  };
-  const MoodContext = createContext(moods);
+  const btn = useRef(null);
+  const clickBtn = () => btn.current.click();
 
   return (
     <div className="App">
@@ -29,21 +21,14 @@ function App() {
         <p>
           <code>useState Hook</code>
         </p>
-        <button onClick={() => setCount(count + 1)}>Click Me</button>
+        <button ref={btn} onClick={() => setCount(count + 1)}>Click Me</button>
         <p>
           <span>Count: {count}</span>
         </p>
-        <MoodContext.Provider value={moods}>
-          {/* Components will have access to the moods */}
-        </MoodContext.Provider>
+        <button onClick={() => clickBtn()}>Click Me 2</button>
       </header>
     </div>
   );
-}
-
-function MoodEmoji() {
-  const Mood = useContext(MoodContext);
-  return <p>{Mood}</p>;
 }
 
 export default App;
