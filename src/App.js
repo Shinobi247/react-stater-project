@@ -1,20 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useReducer } from "react";
+import { useMemo, useState } from "react";
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "plus":
-      return state + 1;
-    case "minus":
-      return state - 1;
-
-    default:
-      throw new Error("Invalid action type");
-  }
-}
 function App() {
-  const [state, dispatch] = useReducer(reducer);
+  const [count, setCount] = useState(0);
+
+  const expensiveCount = useMemo(() => {
+    return count ** 2;
+  }, [count]);
   return (
     <div className="App">
       <header className="App-header">
@@ -22,9 +15,6 @@ function App() {
         <p>
           <code>useState Hook</code>
         </p>
-        Count: {state}
-        <button onClick={() => dispatch({ type: "plus" })}></button>
-        <button onClick={() => dispatch({ type: "minus" })}></button>
       </header>
     </div>
   );
