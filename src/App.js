@@ -1,19 +1,20 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useRef, useEffect, useState } from "react";
+import { useReducer } from "react";
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "plus":
+      return state + 1;
+    case "minus":
+      return state - 1;
+
+    default:
+      throw new Error("Invalid action type");
+  }
+}
 function App() {
-  const [count, setCount] = useState(0);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setLoaded(!loaded);
-    console.log(loaded);
-  }, [count]); // useEffect runs when count changes
-
-  const btn = useRef(null);
-  const clickBtn = () => btn.current.click();
-
+  const [state, dispatch] = useReducer(reducer);
   return (
     <div className="App">
       <header className="App-header">
@@ -21,11 +22,9 @@ function App() {
         <p>
           <code>useState Hook</code>
         </p>
-        <button ref={btn} onClick={() => setCount(count + 1)}>Click Me</button>
-        <p>
-          <span>Count: {count}</span>
-        </p>
-        <button onClick={() => clickBtn()}>Click Me 2</button>
+        Count: {state}
+        <button onClick={() => dispatch({ type: "plus" })}></button>
+        <button onClick={() => dispatch({ type: "minus" })}></button>
       </header>
     </div>
   );
