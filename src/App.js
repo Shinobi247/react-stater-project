@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,9 +12,16 @@ function App() {
   }, [count]); // useEffect runs when count changes
 
   useEffect(() => {
-    alert("hello side effect")
-    return () => alert("good bye component") // runs when component is destroyed
-  })
+    alert("hello side effect");
+    return () => alert("good bye component"); // runs when component is destroyed
+  });
+
+  let moods = {
+    happy: "happy",
+    sad: "sad"
+  };
+  const MoodContext = createContext(moods);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -26,9 +33,17 @@ function App() {
         <p>
           <span>Count: {count}</span>
         </p>
+        <MoodContext.Provider value={moods}>
+          {/* Components will have access to the moods */}
+        </MoodContext.Provider>
       </header>
     </div>
   );
+}
+
+function MoodEmoji() {
+  const Mood = useContext(MoodContext);
+  return <p>{Mood}</p>;
 }
 
 export default App;
